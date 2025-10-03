@@ -16,11 +16,14 @@ function addTask() {
   // create li
   const li = document.createElement('li');
   li.textContent = taskText;
+  li.classList.add('task-item'); // or whatever class name fits your CSS
+
 
   // create remove button
   const removeBtn = document.createElement('button');
-  removeBtn.textContent = 'Remove';
-  removeBtn.className = 'remove-btn';
+removeBtn.textContent = 'Remove';
+removeBtn.classList.add('remove-btn'); // <— this is probably required
+
 
   // when clicked, remove the li
   removeBtn.onclick = function () {
