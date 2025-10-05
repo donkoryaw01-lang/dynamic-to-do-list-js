@@ -46,4 +46,47 @@ taskInput.addEventListener('keypress', function (event) {
   }
 });
 
+  function loadTasks() {
+    const storedTasks = JSON.parse(localStorage.getItem('tasks') || '[]');
+    storedTasks.forEach(task => addTask(task, false));
+  }
+
+  function saveTasks() {
+    const tasks = [];
+    taskList.querySelectorAll('li span').forEach(span => tasks.push(span.textContent));
+    localStorage.setItem('tasks', JSON.stringify(tasks));
+  }
+
+  function addTask(taskText = null, save = true) {
+    if (taskText === null) taskText = taskInput.value.trim();
+    if (taskText === '') return alert('Please enter a task');
+
+    const li = document.createElement('li');
+    const span = document.createElement('span');
+    span.textContent = taskText;
+
+    const removeBtn = document.createElement('button');
+    removeBtn.textContent = 'Remove';
+    removeBtn.classList.add('remove-btn');
+    removeBtn.addEventListener('click', () => {
+      li.remove();
+      saveTasks();
+    });
+
+    li.appendChild(span);
+    li.appendChild(removeBtn);
+    taskList.appendChild(li);
+    taskInput.value = '';
+
+    if (save) saveTasks();
+  }
+
+  addButton.addEventListener('click', () => addTask());
+  taskInput.addEventListener('keypress', (event) => {
+    if (event.key === 'Enter') addTask();
+  });
+
+  loadTasks();
+
+
 });
